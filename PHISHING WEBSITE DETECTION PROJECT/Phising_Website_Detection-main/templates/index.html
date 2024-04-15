@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="This website is developed to identify the safety of URLs.">
+    <meta name="keywords" content="phishing URL,phishing,cybersecurity,machine learning,classifier,python">
+    <meta name="author" content="Sakshi Tanwar">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        
+    <link href="static/styles.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('data:image/jpeg;base64,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'); /* Replace 'https://example.com/background-image.jpg' with your actual image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white; /* Adjust text color for better visibility */
+        }
+    </style>
+    <title>URL DETECTION</title>
+    
+</head>
+
+<body>
+    
+<div class="container">
+    <div class="row">
+        <div class="form col-md" id="form1">
+            <h2>WEBSITE PHISHING URL DETECTION</h2>
+    
+            <br>
+            <form action="/" method="post" onsubmit="return false;" id="urlForm">
+                <input type="text" class="form__input" name='url' id="url" placeholder="Enter URL" required />
+                <label for="url" class="form__label">URL</label>
+                <button class="button" role="button" onclick="checkURL()">Check here</button>
+                <button class="button" type="button" onclick="resetForm()">Reset</button> <!-- New Reset Button -->
+            </form>
+           
+        </div>
+    
+        <div class="col-md" id="form2">
+        
+            <br>
+            <h6 class="right"><a id="urlLink" href="#" target="_blank"></a></h6>
+           
+            <br>
+            <h3 id="prediction"></h3>
+            <button class="button2" id="button2" role="button" style="display: none;">Still want to Continue</button>
+            <button class="button1" id="button1" role="button" style="display: none;">Continue</button>
+        </div> 
+    </div>
+    <br>
+    <p>©2024 ST</p>
+</div>
+
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+
+<script>
+    function checkURL() {
+        let url = document.getElementById('url').value;
+        document.getElementById('urlLink').innerText = url;
+
+        // Simulate result, replace this with your actual logic
+        let x = Math.random(); // Dummy value between 0 and 1
+        let label = "";
+        if (x >= 0.50) {
+            label = "Website is safe to use...";
+            document.getElementById("button1").style.display = "block";
+        } else {
+            label = "Website is unsafe to use...";
+            document.getElementById("button2").style.display = "block";
+        }
+        document.getElementById("prediction").innerHTML = label;
+    }
+
+    function resetForm() {
+        document.getElementById('urlForm').reset(); // Reset the form
+        document.getElementById('urlLink').innerText = ""; // Clear the URL link
+        document.getElementById('prediction').innerText = ""; // Clear the prediction
+        document.getElementById('button1').style.display = "none"; // Hide button 1
+        document.getElementById('button2').style.display = "none"; // Hide button 2
+    }
+</script>
+
+</body>
+</html>
