@@ -16,7 +16,8 @@
 * 0 is suspicious
 * -1 is phishing
 
-* The dataset is borrowed from Kaggle, https://www.kaggle.com/eswarchandt/phishing-website-detector .
+* The dataset is borrowed from Kaggle:
+* https://www.kaggle.com/eswarchandt/phishing-website-detector .
 
 * A collection of website URLs for 11000+ websites. Each sample has 30 website parameters and a class label identifying it as a phishing website or not (1 or -1).
 
